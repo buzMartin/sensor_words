@@ -71,8 +71,8 @@ def apply_check(num,to_checks):
                 if sensor:
                     sensor_list.append(f'文件{k}，第{rn}行检测到敏感词：{sensor}')
                 cur_progress_bar.progress(cur_progress:=min(cur_progress+cur_progress_add,1),f'当前：第{col}列{rn}行')
-        cur_progress = 0
-        cur_progress_bar.empty()     
+            cur_progress = 0
+            cur_progress_bar.empty()     
     total_progress_bar.progress(1,'检查完成')
     time.sleep(1)
     total_progress_bar.empty()
