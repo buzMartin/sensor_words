@@ -76,8 +76,8 @@ def apply_check(num,to_checks):
     total_progress_bar.progress(1,'检查完成')
     time.sleep(1)
     total_progress_bar.empty()
-    st.text('检查完成!')
-    st.session_state['result_df']=pd.DataFrame({'敏感词检测结果，右键点击表格可导出':sensor_list})
+    st.text('检查完成! 右键点击下面表格可导出为xlsx')
+    st.session_state['result_df']=pd.DataFrame({'敏感词检测结果':sensor_list})
     st_aggrid.AgGrid(st.session_state['result_df'],excel_export_mode=ExcelExportMode.MANUAL)
 
 def check_password():
