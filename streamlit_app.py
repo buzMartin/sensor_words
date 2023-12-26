@@ -91,11 +91,9 @@ def check_password():
         else:
             st.session_state["password_correct"] = False
 
-    # Return True if the passward is validated.
     if st.session_state.get("password_correct", False):
         return True
 
-    # Show input for password.
     st.text_input(
         "请输入密码", type="password", on_change=password_entered, key="password"
     )
@@ -110,7 +108,7 @@ if not check_password():
 
 st.title('敏感词检测工具')
 
-upload_files = st.file_uploader('请上传待检测的文件，可上传文件夹或单个文件',type=['xlsx','txt', 'zip','srt'],accept_multiple_files=True)
+upload_files = st.file_uploader('请上传待检测的文件，可上传文件夹或单个文件',type=['srt','txt'],accept_multiple_files=True)
 
 if upload_files:
     handle_upload_files(upload_files)
