@@ -32,7 +32,7 @@ data = None
 with open('pages/forbidden.txt','r',encoding='utf-8-sig') as fp:
     data = fp.readlines()
 
-texts = st.text_area('屏蔽词列表','\n'.join(data))
+texts = st.text_area('屏蔽词列表',''.join(data))
 if texts:
     with open('pages/forbidden.txt','w',encoding='utf-8-sig') as fp:
         fp.write(texts)
