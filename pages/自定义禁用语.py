@@ -26,14 +26,14 @@ def check_password():
 if not check_password():
     st.stop()
 
+
+
 data = None
 with open('pages/forbidden.txt','r',encoding='utf-8-sig') as fp:
     data = fp.readlines()
-df = pd.DataFrame({'屏蔽词列表':data})
-st.data_editor(df)
-_,col2,col3 = st.columns([0.6,0.2,0.2])
-with col2:
-    plus_btn = st.button('+')
-with col3:
-    minus_btn = st.button('-')
+
+texts = st.text_area('屏蔽词列表','\n'.join(data))
+if texts:
+    with open('pages/forbidden.txt','w',encoding='utf-8-sig') as fp:
+        fp.write(texts)
 
