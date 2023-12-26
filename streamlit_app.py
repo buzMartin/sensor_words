@@ -88,7 +88,7 @@ def apply_check(num,to_checks):
                     sensor_dict['文件'].append(k)
                     sensor_dict['段'].append(rn+1)
                     sensor_dict['内容'].append(row)
-                    sensor_dict['敏感词'].append(sensor)
+                    sensor_dict['敏感词'].append(f'{sensor}')
                 custom_sensor = check_customs(row)
                 if custom_sensor:
                     sensor_dict['文件'].append(k)
