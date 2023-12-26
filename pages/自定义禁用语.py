@@ -25,8 +25,6 @@ def check_password():
 if not check_password():
     st.stop()
 
-
-
 data = None
 with open('pages/forbidden.txt','r',encoding='utf-8-sig') as fp:
     data = fp.readlines()
