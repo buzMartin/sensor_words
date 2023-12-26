@@ -77,7 +77,8 @@ def apply_check(num,to_checks):
     time.sleep(1)
     total_progress_bar.empty()
     st.text('检查完成!')
-    st_aggrid.AgGrid(pd.DataFrame({'敏感词检测结果，右键点击表格可导出':sensor_list}),excel_export_mode=ExcelExportMode.MANUAL)
+    st.session_state['result_df']=pd.DataFrame({'敏感词检测结果，右键点击表格可导出':sensor_list})
+    st_aggrid.AgGrid(st.session_state['result_df'],excel_export_mode=ExcelExportMode.MANUAL)
 
 def check_password():
     """Returns `True` if the user had the correct password."""
