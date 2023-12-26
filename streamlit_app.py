@@ -64,7 +64,12 @@ def apply_check(num,to_checks):
         to_checks = [int(c) for c in to_checks.split(',')]
     except:
         st.warning('请检查输入的格式')
-    sensor_list = []
+    sensor_dict= {
+        '文件':[],
+        '段':[],
+        '内容':[],
+        '敏感词':[]
+    }
     total_progress = 0
     total_progress_add = round(100/(len(st.session_state['data_storage'])*len(to_checks))/100,2)
     total_progress_bar = st.progress(total_progress,'总进度')
@@ -80,18 +85,25 @@ def apply_check(num,to_checks):
                 sensor = check_lt_sensor(row)
                 time.sleep(1)
                 if sensor:
-                    sensor_list.append(f'文件{k}，第{rn}行检测到敏感词：{sensor}')
+                    sensor_dict['文件'].append(k)
+                    sensor_dict['段'].append(rn+1)
+                    sensor_dict['内容'].append(row)
+                    sensor_dict['敏感词'].append(sensor)
                 custom_sensor = check_customs(row)
                 if custom_sensor:
-                    sensor_list.append(f'文件{k}，第{rn}行检测到自定义敏感词：{sensor}')
-                cur_progress_bar.progress(cur_progress:=min(cur_progress+cur_progress_add,1),f'当前：第{col}列{rn+1}行')
+                    sensor_dict['文件'].append(k)
+                    sensor_dict['段'].append(rn+1)
+                    sensor_dict['内容'].append(row)
+                    sensor_dict['敏感词'].append(f'自定义敏感词: {sensor}')
+                    # sensor_list.append(f'文件{k}，第{rn+1}段检测到自定义敏感词：{sensor}')
+                cur_progress_bar.progress(cur_progress:=min(cur_progress+cur_progress_add,1),f'当前：第{rn+1}段第{col}行')
             cur_progress = 0
             cur_progress_bar.empty()     
     total_progress_bar.progress(1,'检查完成')
     time.sleep(1)
     total_progress_bar.empty()
     st.text('检查完成! 右键点击下面表格可导出为xlsx')
-    st.session_state['result_df']=pd.DataFrame({'敏感词检测结果':sensor_list})
+    st.session_state['result_df']=pd.DataFrame(sensor_dict)
     st_aggrid.AgGrid(st.session_state['result_df'],excel_export_mode=ExcelExportMode.MANUAL)
 
 def check_password():
