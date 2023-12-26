@@ -25,6 +25,17 @@ def check_lt_sensor(content):
     if res_json['status']==0:
         return res_json['data']['words']
 
+def check_customs(content):
+    words_list = st.session_state['sensors']
+    result_list = []
+    if len(words_list)>0:
+        for word in words_list:
+            if word in content:
+                result_list.append(word)
+    
+    if len(result_list)>0:
+        return result_list
+             
 def make_df(v_list:list, cols_num:int):
     st.session_state['data_storage'] = {}
     raw_data = st.session_state['data_storage']
@@ -70,6 +81,9 @@ def apply_check(num,to_checks):
                 time.sleep(1)
                 if sensor:
                     sensor_list.append(f'文件{k}，第{rn}行检测到敏感词：{sensor}')
+                custom_sensor = check_customs(row)
+                if custom_sensor:
+                    sensor_list.append(f'文件{k}，第{rn}行检测到自定义敏感词：{sensor}')
                 cur_progress_bar.progress(cur_progress:=min(cur_progress+cur_progress_add,1),f'当前：第{col}列{rn+1}行')
             cur_progress = 0
             cur_progress_bar.empty()     
@@ -105,8 +119,10 @@ def check_password():
 if not check_password():
     st.stop()
 
+with open('pages/forbidden.txt','r',encoding='utf-8-sig') as fp:
+    st.session_state['sensors'] =  fp.readlines()
 
-st.title('敏感词检测工具')
+st.title('字幕敏感词检测工具')
 
 upload_files = st.file_uploader('请上传待检测的文件，可上传文件夹或单个文件',type=['srt','txt'],accept_multiple_files=True)
 

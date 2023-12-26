@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import hmac
 def check_password():
     """Returns `True` if the user had the correct password."""
