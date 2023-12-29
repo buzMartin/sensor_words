@@ -47,7 +47,7 @@ def check_customs(content, custom_list):
     if len(words_list)>0:
         for word in words_list:
             if word in content:
-                result_list.append(word)
+                result_list.append(f'自定义:{word}')
     
     if len(result_list)>0:
         return result_list
