@@ -53,8 +53,8 @@ def check_customs(content):
 
 def check(row, cn_cols, oversea_cols):
     with ThreadPoolExecutor(max_workers=3) as worker:
-        cn_contents = [row.iat[cn] for cn in cn_cols]
-        ovs_contents = [row.iat[ovs] for ovs in oversea_cols]
+        cn_contents = [row.iat[cn-1] for cn in cn_cols]
+        ovs_contents = [row.iat[ovs-1] for ovs in oversea_cols]
         custom_contents = cn_contents+ovs_contents
 
         cn_results = worker.map(check_sensor_cn,cn_contents)
