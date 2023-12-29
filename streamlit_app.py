@@ -84,7 +84,7 @@ def apply_check(num,cn_to_checks, oversea_to_checks):
         cur_progress_add = round(100/df.shape[0]/100,2)
         for n, row in df.iterrows():
             sensor_list = sensor_check.check(row, cn_to_checks, oversea_to_checks,st.session_state['sensors'])
-            time.sleep(0.5)
+            time.sleep(0.3)
             if len(sensor_list)>0:
                 sensor_dict['文件'].append(file_name)
                 sensor_dict['段'].append(n+1)
