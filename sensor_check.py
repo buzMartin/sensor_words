@@ -2,6 +2,8 @@ import requests
 import streamlit as st
 from concurrent.futures import ThreadPoolExecutor
 import json
+with open('pages/forbidden.txt','r',encoding='utf-8-sig') as fp:
+    st.session_state['sensors'] =  fp.readlines()
 def check_sensor_cn(content):
     url = st.secrets['url_cn']
     payload = {

@@ -5,9 +5,7 @@ import time
 import st_aggrid
 from st_aggrid.shared import ExcelExportMode
 import hmac
-with open('pages/forbidden.txt','r',encoding='utf-8-sig') as fp:
-    st.session_state['sensors'] =  fp.readlines()
-    
+
 def make_df(v_list:list, cols_num:int):
     """
     这里的df结构是，按每段x行，规划有多少个字段。然后装入df,填充长度
