@@ -82,7 +82,7 @@ def apply_check(num,cn_to_checks, oversea_to_checks):
         total_progress_bar.progress(total_progress:=min(total_progress+total_progress_add,1),f'总进度：正在检查{file_name}')
         cur_progress_add = round(100/df.shape[0]/100,2)
         for n, row in df.iterrows():
-            sensor_list = sensor_check.check(row, cn_to_checks, oversea_to_checks)
+            sensor_list = sensor_check.check(row, cn_to_checks, oversea_to_checks,st.session_state['sensors'])
             time.sleep(0.5)
             if len(sensor_list)>0:
                 sensor_dict['文件'].append(file_name)
@@ -132,7 +132,7 @@ if upload_files:
     chunk_num = st.text_input('多少行作为一段，请输入数字',4)
     check_cn_cols = st.text_input('中文敏感词检测的行，用数字填写，多行用逗号隔开，如3,4','3')
     check_oversea_cols = st.text_input('海外敏感词检测的行，用数字填写，多行用逗号隔开，如3,4','4')
-    apply_btn = st.button('开始检查',on_click=apply_check,args=[chunk_num,check_cn_cols,check_oversea_cols,st.session_state['sensors']])
+    apply_btn = st.button('开始检查',on_click=apply_check,args=[chunk_num,check_cn_cols,check_oversea_cols])
     example = """## 填写示例
     例如格式如下，可以看出每4行作为一个段落，中文和英文的行分别是段内的第3，第4行。
     所以上面的参数可以填4，第二个填3，第三个填4
