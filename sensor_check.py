@@ -60,4 +60,4 @@ def check(row, cn_cols, oversea_cols):
         cn_results = worker.map(check_sensor_cn,cn_contents)
         ovs_results = worker.map(check_sensor_oversea,ovs_contents)
         custom_results = worker.map(check_customs,custom_contents)
-    return cn_results+ovs_results+custom_results
+    return list(cn_results)+list(ovs_results)+list(custom_results)
