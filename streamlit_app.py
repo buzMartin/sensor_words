@@ -5,6 +5,8 @@ import time
 import st_aggrid
 from st_aggrid.shared import ExcelExportMode
 import hmac
+with open('pages/forbidden.txt','r',encoding='utf-8-sig') as fp:
+    st.session_state['sensors'] =  fp.readlines()
 
 def make_df(v_list:list, cols_num:int):
     """
@@ -130,7 +132,7 @@ if upload_files:
     chunk_num = st.text_input('多少行作为一段，请输入数字',4)
     check_cn_cols = st.text_input('中文敏感词检测的行，用数字填写，多行用逗号隔开，如3,4','3')
     check_oversea_cols = st.text_input('海外敏感词检测的行，用数字填写，多行用逗号隔开，如3,4','4')
-    apply_btn = st.button('开始检查',on_click=apply_check,args=[chunk_num,check_cn_cols,check_oversea_cols])
+    apply_btn = st.button('开始检查',on_click=apply_check,args=[chunk_num,check_cn_cols,check_oversea_cols,st.session_state['sensors']])
     example = """## 填写示例
     例如格式如下，可以看出每4行作为一个段落，中文和英文的行分别是段内的第3，第4行。
     所以上面的参数可以填4，第二个填3，第三个填4

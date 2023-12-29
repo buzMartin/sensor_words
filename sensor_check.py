@@ -2,8 +2,7 @@ import requests
 import streamlit as st
 from concurrent.futures import ThreadPoolExecutor
 import json
-with open('pages/forbidden.txt','r',encoding='utf-8-sig') as fp:
-    st.session_state['sensors'] =  fp.readlines()
+
 def check_sensor_cn(content):
     url = st.secrets['url_cn']
     payload = {
@@ -42,8 +41,8 @@ def check_sensor_oversea(content):
     if res_json['status']==0:
         return res_json['data']['words']
 
-def check_customs(content):
-    words_list = st.session_state['sensors']
+def check_customs(content, custom_list):
+    words_list = custom_list
     result_list = []
     if len(words_list)>0:
         for word in words_list:
@@ -53,13 +52,13 @@ def check_customs(content):
     if len(result_list)>0:
         return result_list
 
-def check(row, cn_cols, oversea_cols):
+def check(row, cn_cols, oversea_cols, sensor_custom_list):
     with ThreadPoolExecutor(max_workers=3) as worker:
         cn_contents = [row.iat[cn-1] for cn in cn_cols]
         ovs_contents = [row.iat[ovs-1] for ovs in oversea_cols]
         custom_contents = cn_contents+ovs_contents
-
+        sensors = [sensor_custom_list] * len(custom_contents)
         cn_results = worker.map(check_sensor_cn,cn_contents)
         ovs_results = worker.map(check_sensor_oversea,ovs_contents)
-        custom_results = worker.map(check_customs,custom_contents)
+        custom_results = worker.map(check_customs,custom_contents,sensors)
     return list(cn_results)+list(ovs_results)+list(custom_results)
