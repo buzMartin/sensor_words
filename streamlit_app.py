@@ -78,6 +78,7 @@ def apply_check(num,cn_to_checks, oversea_to_checks):
     cur_progress = 0
     cur_progress_bar = st.progress(cur_progress,'当前进度')
     for i, df in enumerate(dfs):
+        print(st.session_state['data_storage'])
         file_name = list(st.session_state['data_storage'].keys())[i]
         total_progress_bar.progress(total_progress:=min(total_progress+total_progress_add,1),f'总进度：正在检查{file_name}')
         cur_progress_add = round(100/df.shape[0]/100,2)
