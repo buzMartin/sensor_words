@@ -43,7 +43,7 @@ def handle_upload_files(file_list):
     st.session_state['data_storage'] = {}
     data_storage = st.session_state['data_storage']
     for file in file_list:
-        if file.name.endswith('srt'):
+        if file.name.endswith('.srt') or file.name.endswith('.txt'):
             lines=[l for l in file.getvalue().decode('utf-8-sig').splitlines() if l!='']
             data_storage[file.name]=lines
 
