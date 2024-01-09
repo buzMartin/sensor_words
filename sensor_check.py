@@ -53,11 +53,11 @@ def check_customs(content, custom_list):
         return result_list
 
 def check(row, cn_cols, oversea_cols, sensor_custom_list):
+    cn_contents = [row.iat[cn-1] for cn in cn_cols]
+    ovs_contents = [row.iat[ovs-1] for ovs in oversea_cols]
+    custom_contents = cn_contents+ovs_contents
+    sensors = [sensor_custom_list] * len(custom_contents)
     with ThreadPoolExecutor(max_workers=3) as worker:
-        cn_contents = [row.iat[cn-1] for cn in cn_cols]
-        ovs_contents = [row.iat[ovs-1] for ovs in oversea_cols]
-        custom_contents = cn_contents+ovs_contents
-        sensors = [sensor_custom_list] * len(custom_contents)
         cn_results = worker.map(check_sensor_cn,cn_contents)
         ovs_results = worker.map(check_sensor_oversea,ovs_contents)
         custom_results = worker.map(check_customs,custom_contents,sensors)
